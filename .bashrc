@@ -165,5 +165,8 @@ source "$OSH"/oh-my-bash.sh
 # Example aliases
 # alias bashconfig="mate ~/.bashrc"
 # alias ohmybash="mate ~/.oh-my-bash"
-
+alias vi=nvim
 export LC_ALL=en_US.UTF-8
+
+# opencode
+export PATH=/home/paw/.opencode/bin:$PATH
