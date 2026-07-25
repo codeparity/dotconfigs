@@ -11,3 +11,4 @@ vim.opt.titleold = "Terminal"
 vim.opt.nu = true
 vim.opt.relativenumber = true
 vim.o.statuscolumn = "%s %l %r "
+vim.o.exrc = true
