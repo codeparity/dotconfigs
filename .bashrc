@@ -1,26 +1,27 @@
 # Enable the subsequent settings only in interactive sessions
 case $- in
-  *i*) ;;
-    *) return;;
+*i*) ;;
+*) return ;;
 esac
 #disable ctrl+s on window terminals
 stty -ixon
 
-# set default editor as vi
-export EDITOR='vim'
-export VISUAL='vim'
 # set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
+if [ -d "$HOME/bin" ]; then
+  PATH="$HOME/bin:$PATH"
 fi
 
+# set default editor as nvim
+export EDITOR='nvim'
+export VISUAL='nvim'
+
 # set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/.local/bin" ] ; then
-    PATH="$HOME/.local/bin:$PATH"
+if [ -d "$HOME/.local/bin" ]; then
+  PATH="$HOME/.local/bin:$PATH"
 fi
 
-if [ -d "/usr/local/go/bin" ] ; then
-    PATH="/usr/local/go/bin:$PATH"
+if [ -d "/usr/local/go/bin" ]; then
+  PATH="/usr/local/go/bin:$PATH"
 fi
 
 # Path to your oh-my-bash installation.
@@ -32,7 +33,6 @@ OSH_THEME="robbyrussell"
 #OSH_THEME="agnoster"
 DISABLE_UPDATE_PROMPT=true
 DISABLE_AUTO_UPDATE=true
-
 
 # If you set OSH_THEME to "random", you can ignore themes you don't like.
 # OMB_THEME_RANDOM_IGNORED=("powerbash10k" "wanelo")
@@ -99,7 +99,7 @@ SCM_GIT_IGNORE_UNTRACKED="true"
 OMB_USE_SUDO=true
 
 # To enable/disable display of Python virtualenv and condaenv
-OMB_PROMPT_SHOW_PYTHON_VENV=true  # enable
+OMB_PROMPT_SHOW_PYTHON_VENV=true # enable
 # OMB_PROMPT_SHOW_PYTHON_VENV=false # disable
 
 # Which completions would you like to load? (completions can be found in ~/.oh-my-bash/completions/*)
@@ -170,3 +170,11 @@ export LC_ALL=en_US.UTF-8
 
 # opencode
 export PATH=/home/paw/.opencode/bin:$PATH
+
+# >>> opencode-local-setup >>>
+export OPENCODE_LOCAL_SETUP_DIR="/home/paw/.config/opencode/local-setup"
+[ -f "/home/paw/.config/opencode/local-setup/opencode-wrapper.sh" ] && . "/home/paw/.config/opencode/local-setup/opencode-wrapper.sh"
+# <<< opencode-local-setup <<<
+
+# kimi-code
+export PATH="/home/paw/.kimi-code/bin:$PATH"
