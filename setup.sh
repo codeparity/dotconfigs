@@ -159,6 +159,28 @@ main() {
         echo -e "${YELLOW}Keyd is a system-wide key remapper daemon and requires root permissions to write to /etc/keyd/default.conf.${NC}"
         read -rp "Would you like to install keyd configuration? [y/N]: " install_keyd
         if [[ "$install_keyd" =~ ^[Yy]$ ]]; then
+            # Validate before writing. A malformed keyd config can leave the
+            # keyboard unusable, which is awkward to recover from without one.
+            if command -v keyd &>/dev/null; then
+                if keyd check "$SCRIPT_DIR/keyd/default.conf" &>/dev/null; then
+                    log_success "keyd config validated."
+                else
+                    log_error "keyd config failed validation — refusing to install it:"
+                    keyd check "$SCRIPT_DIR/keyd/default.conf" || true
+                    return 1
+                fi
+            else
+                log_warning "keyd not installed; skipping config validation."
+            fi
+
+            # keyd owns physical->logical remapping. ~/.Xmodmap defining the
+            # same hjkl->arrow keys would make two layers fight over one key,
+            # which shows up as phantom keypresses rather than as an error.
+            if [ -f "$HOME/.Xmodmap" ] && grep -qE "^keycode +(43|44|45|46) " "$HOME/.Xmodmap" 2>/dev/null; then
+                log_warning "~/.Xmodmap remaps h/j/k/l, duplicating keyd's [meta] layer."
+                log_warning "Consider removing it — see 'Keyboard layering' in README.md."
+            fi
+
             log_info "Installing keyd configuration to /etc/keyd/default.conf (requires sudo)..."
             sudo mkdir -p /etc/keyd
             if [ -f "/etc/keyd/default.conf" ]; then
