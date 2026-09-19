@@ -19,15 +19,21 @@ end
 
 vim.cmd("autocmd! TermOpen term://* lua Set_terminal_keymaps()")
 
-local Terminal = require("toggleterm.terminal").Terminal
-local lazygit = Terminal:new({ cmd = "lazygit", hidden = false })
-
+local lazygit = nil
 function _LAZYGIT_TOGGLE()
+  if not lazygit then
+    local Terminal = require("toggleterm.terminal").Terminal
+    lazygit = Terminal:new({ cmd = "lazygit", hidden = false })
+  end
   lazygit:toggle()
 end
-local python = Terminal:new({ cmd = "python3", hidden = true })
 
+local python = nil
 function _PYTHON_TOGGLE()
+  if not python then
+    local Terminal = require("toggleterm.terminal").Terminal
+    python = Terminal:new({ cmd = "python3", hidden = true })
+  end
   python:toggle()
 end
 
@@ -48,12 +54,11 @@ vim.keymap.set("i", "jk", "<ESC>", opts)
 vim.keymap.set("n", "<ESC>", "<ESC>:noh<CR>", opts)
 vim.keymap.set("n", "fs", "<cmd>w<cr>", opts)
 
-vim.keymap.del("n", "<leader>l")
+pcall(vim.keymap.del, "n", "<leader>l")
 
 -- dap keys
-local dap = require("dap")
-
 local function set_dapui_context_keys()
+  local dap = require("dap")
   local opts = { buffer = true, silent = true }
 
   -- Single-key debugging actions inside the UI panels
