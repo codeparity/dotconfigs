@@ -98,7 +98,7 @@ enable-animations=false
 font-name='Cantarell 12'
 gtk-decoration-layout='menu:minimize,maximize,close'
 gtk-theme='Ambiant-MATE-Dark-Yellow'
-icon-theme='ubuntu-mono-dark'
+icon-theme='Paper'
 monospace-font-name='CaskaydiaMono Nerd Font 12'
 window-scaling-factor=0
 
@@ -132,7 +132,7 @@ duplicate-leds=true
 [desktop/peripherals/mouse]
 accel-profile='default'
 cursor-size=32
-cursor-theme='Adwaita'
+cursor-theme='mate'
 middle-button-enabled=false
 
 [desktop/session]
@@ -1171,7 +1171,7 @@ history-search-for=['\n\t\n\n', 'leader', 'telescope', '[dot]', '[at]', 'pelican
 side-panel-active-page=827629879
 side-panel-size=200
 size=(1920, 1000)
-state=132
+state=4
 statusbar-visible=true
 wrap-mode='GTK_WRAP_WORD'
 
@@ -1262,7 +1262,7 @@ logfiles=['/var/log/fontconfig.log', '/var/log/alternatives.log', '/var/log/fail
 width=1920
 
 [system-monitor]
-current-tab=0
+current-tab=1
 maximized=true
 show-tree=false
 view-as=0
