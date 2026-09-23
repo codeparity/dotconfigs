@@ -108,3 +108,50 @@ vim.api.nvim_set_keymap("v", "<leader>aa", "<cmd>CodeCompanionActions<cr>", { si
 --   { "<leader>fs", "<cmd>w<cr>", desc = "[s]ave file", mode = "n" },
 -- })
 --
+
+-- Sticky Window Mode
+vim.keymap.set("n", "<leader>wW", function()
+  require("which-key").show({ keys = "<c-w>", loop = true })
+end, { desc = "Sticky Window Mode (Hydra)" })
+
+-- Window Resizing Percentages
+vim.keymap.set("n", "<leader>wr5", function()
+  vim.api.nvim_win_set_width(0, math.floor(vim.o.columns * 0.5))
+end, { desc = "Width 50%" })
+vim.keymap.set("n", "<leader>wr2", function()
+  vim.api.nvim_win_set_width(0, math.floor(vim.o.columns * 0.25))
+end, { desc = "Width 25%" })
+vim.keymap.set("n", "<leader>wr7", function()
+  vim.api.nvim_win_set_width(0, math.floor(vim.o.columns * 0.75))
+end, { desc = "Width 75%" })
+vim.keymap.set("n", "<leader>wr3", function()
+  vim.api.nvim_win_set_width(0, math.floor(vim.o.columns * 0.33))
+end, { desc = "Width 33%" })
+
+vim.keymap.set("n", "<leader>wrh", function()
+  vim.api.nvim_win_set_height(0, math.floor(vim.o.lines * 0.5))
+end, { desc = "Height 50%" })
+vim.keymap.set("n", "<leader>wrH", function()
+  vim.api.nvim_win_set_height(0, math.floor(vim.o.lines * 0.25))
+end, { desc = "Height 25%" })
+
+-- Window Moving Menu
+vim.keymap.set("n", "<leader>wmh", "<C-w>H", { desc = "Move window far left" })
+vim.keymap.set("n", "<leader>wmj", "<C-w>J", { desc = "Move window far down" })
+vim.keymap.set("n", "<leader>wmk", "<C-w>K", { desc = "Move window far up" })
+vim.keymap.set("n", "<leader>wml", "<C-w>L", { desc = "Move window far right" })
+vim.keymap.set("n", "<leader>wms", "<C-w>x", { desc = "Swap window with next" })
+
+-- autopair config
+vim.keymap.set("i", "<Tab>", function()
+  local line = vim.api.nvim_get_current_line()
+  local col = vim.api.nvim_win_get_cursor(0)[2]
+  local next_char = line:sub(col + 1, col + 1)
+
+  -- Check if the next character is a closing bracket, quote, or backtick
+  if next_char:match('[%)}%"%`%]]') then
+    return "<Right>"
+  else
+    return "\t" -- Fallback to standard tab behavior
+  end
+end, { expr = true, silent = true })
