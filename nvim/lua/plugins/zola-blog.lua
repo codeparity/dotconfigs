@@ -7,9 +7,9 @@
 
 local function in_blog()
   local cwd = vim.fn.getcwd()
-  return vim.fn.filereadable(cwd .. "/config.toml") == 1
-    and vim.fn.isdirectory(cwd .. "/content") == 1
-    and vim.fn.filereadable(cwd .. "/.nvim.lua") == 1
+  return vim.fn.filereadable(cwd .. "/.nvim.lua") == 1
+    and vim.fn.filereadable(cwd .. "/web/config.toml") == 1
+    and vim.fn.isdirectory(cwd .. "/source") == 1
 end
 
 local function run(command, fallback)
@@ -37,7 +37,7 @@ return {
       key = "a",
       desc = "Blog Article",
       action = run("ZolaArticles", function()
-        Snacks.picker.files({ dirs = { "content/articles", "content/substack" } })
+        Snacks.picker.files({ dirs = { "source/articles", "source/substack" } })
       end),
     })
     table.insert(keys, 2, {
