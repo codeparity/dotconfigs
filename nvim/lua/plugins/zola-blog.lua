@@ -1,16 +1,9 @@
--- Dashboard entries for the Zola blog, added only when nvim starts in it.
+-- Dashboard entries for the Zola blog, added only when the project opts in.
 --
--- The commands themselves live in the project's own .nvim.lua, so they are not
--- defined yet when this file is read and may not be defined when the key is
--- pressed either (exrc has to have been trusted). Each action checks first and
--- falls back to something harmless.
-
-local function in_blog()
-  local cwd = vim.fn.getcwd()
-  return vim.fn.filereadable(cwd .. "/.nvim.lua") == 1
-    and vim.fn.filereadable(cwd .. "/web/config.toml") == 1
-    and vim.fn.isdirectory(cwd .. "/source") == 1
-end
+-- The project's .nvim.lua sets vim.g.zola_project = true before this runs
+-- (exrc is processed before UIEnter, when the dashboard renders).
+-- Commands live in .nvim.lua too; if exrc hasn't been trusted yet the
+-- fallback action is harmless.
 
 local function run(command, fallback)
   return function()
@@ -25,19 +18,20 @@ end
 return {
   "folke/snacks.nvim",
   opts = function(_, opts)
-    if not in_blog() then
+    if not vim.g.zola_project then
       return
     end
     local keys = vim.tbl_get(opts, "dashboard", "preset", "keys")
     if not keys then
       return
     end
+    local dirs = vim.g.zola_content_dirs or { "source" }
     table.insert(keys, 1, {
       icon = " ",
       key = "a",
       desc = "Blog Article",
       action = run("ZolaArticles", function()
-        Snacks.picker.files({ dirs = { "source/articles", "source/substack" } })
+        Snacks.picker.files({ dirs = dirs })
       end),
     })
     table.insert(keys, 2, {
