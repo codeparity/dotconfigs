@@ -6,7 +6,10 @@ return {
       { "<leader>r", group = "run" }, -- code_runner.nvim: rr/rf/rft/rp/rc
       { "<leader>wW", desc = "Sticky Window Mode" },
       { "<leader>wm", group = "+move window" },
-      { "<leader>wr", group = "+resize %" },
+      { "<leader>wz", desc = "Zoom/maximize" },
+      { "<leader>w=", group = "+width" },
+      { "<leader>wv", group = "+height" },
+      { "<leader><tab>", group = "+tabs" },
     },
   },
 }
