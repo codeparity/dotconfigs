@@ -55,8 +55,8 @@
 
 | Key | Mode | Action | Plugin |
 |-----|------|--------|--------|
-| `Alt+E` | Normal | Find Symbols / Emoji | telescope-symbols.nvim |
-| `Alt+E` | Insert | Insert Symbol / Emoji | telescope-symbols.nvim |
+| `Ctrl+.` | Normal | Find Symbols / Emoji | telescope-symbols.nvim |
+| `Ctrl+.` | Insert | Insert Symbol / Emoji | telescope-symbols.nvim |
 
 ---
 
