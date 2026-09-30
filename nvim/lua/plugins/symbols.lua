@@ -4,9 +4,9 @@ return {
     dependencies = { "nvim-telescope/telescope.nvim" },
     keys = {
       -- Normal mode mapping
-      { "<C-e>", "<cmd>Telescope symbols<cr>", desc = "Find Symbols/Emoji" },
+      { "<C-s>", "<cmd>Telescope symbols<cr>", desc = "Find Symbols/Emoji" },
       -- Insert mode mapping
-      { "<C-e>", "<cmd>Telescope symbols<cr>", mode = "i", desc = "Insert Symbol/Emoji" },
+      { "<C-s>", "<cmd>Telescope symbols<cr>", mode = "i", desc = "Insert Symbol/Emoji" },
     },
   },
 }
