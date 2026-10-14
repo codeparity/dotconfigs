@@ -7,3 +7,14 @@
 -- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 --- Lua
+
+-- Auto-save SVG files on leaving insert mode (for live preview)
+vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
+  pattern = "*.svg",
+  callback = function()
+    if vim.bo.modified then
+      vim.cmd("silent! write")
+    end
+  end,
+  desc = "Auto-save SVG files for live preview",
+})
