@@ -12,7 +12,7 @@
 vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
   pattern = "*.svg",
   callback = function()
-    if vim.bo.modified then
+    if vim.bo.modified and vim.bo.buftype == "" and vim.bo.filetype ~= "image" then
       vim.cmd("silent! write")
     end
   end,

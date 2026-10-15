@@ -3,16 +3,23 @@ return {
     "aweis89/ai-terminals.nvim",
     dependencies = { "folke/snacks.nvim" },
     keys = {
-      { "<leader>at", function() require("ai-terminals").toggle("agy") end, mode = { "n", "v" }, desc = "Toggle AI Terminal (agy)" },
+      {
+        "<leader>at",
+        function()
+          require("ai-terminals").toggle("codex")
+        end,
+        mode = { "n", "v" },
+        desc = "Toggle AI Terminal (codex)",
+      },
     },
     opts = {
       terminals = {
-        agy = { cmd = "agy" },
+        codex = { cmd = "codex" },
       },
       auto_terminal_keymaps = {
         prefix = "<leader>a",
         terminals = {
-          { name = "agy", key = "g" },
+          { name = "codex", key = "g" },
         },
       },
     },
@@ -20,7 +27,9 @@ return {
       require("ai-terminals").setup(opts)
       -- Optional Snacks picker integration
       local sa = require("ai-terminals.snacks_actions")
-      pcall(function() sa.apply(require("snacks").config) end)
+      pcall(function()
+        sa.apply(require("snacks").config)
+      end)
     end,
   },
 }
