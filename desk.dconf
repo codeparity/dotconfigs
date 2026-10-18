@@ -2,7 +2,7 @@
 document-directory=@ms 'file:///home/paw/Desktop'
 
 [atril/default]
-window-ratio=(3.2220370346077232, 1.1866161613054129)
+window-ratio=(2.2777777777777777, 1.2613636363636365)
 
 [caja-open-terminal]
 desktop-opens-home-dir=false
@@ -98,7 +98,7 @@ enable-animations=false
 font-name='Cantarell 12'
 gtk-decoration-layout='menu:minimize,maximize,close'
 gtk-theme='Ambiant-MATE-Dark-Yellow'
-icon-theme='Paper'
+icon-theme='Yaru-magenta-dark'
 monospace-font-name='CaskaydiaMono Nerd Font 12'
 window-scaling-factor=0
 
@@ -116,6 +116,11 @@ name='kitty term'
 action='/usr/bin/shutter -s'
 binding='Print'
 name='Take screenshot'
+
+[desktop/keybindings/custom3]
+action='shutter -s'
+binding='<Mod4>p'
+name='screenshot'
 
 [desktop/media-handling]
 automount-open=false
@@ -137,7 +142,7 @@ middle-button-enabled=false
 
 [desktop/session]
 idle-delay=5
-session-start=1785379850
+session-start=1791873440
 show-hidden-apps=true
 
 [desktop/session/required-components]
@@ -193,6 +198,7 @@ titlebar-font='Cantarell Bold 12'
 
 [marco/global-keybindings]
 run-command-1=''
+run-command-5='disabled'
 run-command-6=''
 run-command-screenshot='disabled'
 run-command-terminal='<Mod4>t'
@@ -230,7 +236,7 @@ theme='slider'
 
 [panel/general]
 enable-sni-support=true
-object-id-list=['menu-bar', 'notification-area', 'clock', 'show-desktop', 'window-list', 'workspace-switcher', 'object-0', 'object-1', 'object-2', 'object-3', 'object-5', 'object-6', 'object-8', 'object-9', 'object-10', 'object-7', 'object-14', 'object-16', 'object-11', 'object-21', 'object-22', 'object-18', 'object-24', 'object-20', 'object-12', 'object-13', 'object-15', 'object-17', 'object-19']
+object-id-list=['menu-bar', 'notification-area', 'clock', 'show-desktop', 'window-list', 'workspace-switcher', 'object-0', 'object-1', 'object-2', 'object-3', 'object-5', 'object-6', 'object-8', 'object-9', 'object-10', 'object-7', 'object-14', 'object-16', 'object-11', 'object-21', 'object-22', 'object-18', 'object-24', 'object-20', 'object-12', 'object-13', 'object-15', 'object-17', 'object-19', 'object-23']
 toplevel-id-list=['top', 'bottom']
 
 [panel/menubar]
@@ -548,8 +554,8 @@ toplevel-id='top'
 [panel/objects/object-18]
 locked=true
 object-type='separator'
-position=-189
-relative-to-edge='center'
+position=1098
+relative-to-edge='end'
 toplevel-id='top'
 
 [panel/objects/object-19]
@@ -581,6 +587,13 @@ toplevel-id='top'
 applet-iid='MateXAppStatusAppletFactory::MateXAppStatusApplet'
 object-type='applet'
 position=1226
+toplevel-id='top'
+
+[panel/objects/object-23]
+launcher-location='/usr/share/applications/mate-screenshot.desktop'
+object-type='launcher'
+position=1174
+relative-to-edge='end'
 toplevel-id='top'
 
 [panel/objects/object-24]
@@ -1117,8 +1130,8 @@ show-mode=0
 applet-iid='WnckletFactory::ShowDesktopApplet'
 locked=false
 object-type='applet'
-position=741
-relative-to-edge='start'
+position=1108
+relative-to-edge='end'
 toplevel-id='top'
 
 [panel/objects/window-list]
@@ -1178,7 +1191,7 @@ wrap-mode='GTK_WRAP_WORD'
 [pluma/plugins/filebrowser/on-load]
 root='file:///'
 tree-view=true
-virtual-root='file:///home/paw/projects/logos'
+virtual-root='file:///home/paw/Documents'
 
 [pluma/plugins/pythonconsole]
 use-system-font=true
@@ -1231,17 +1244,18 @@ contains-the-text=true
 
 [settings-daemon/plugins/media-keys]
 control-center='disabled'
+eject='disabled'
 home='<Mod4>e'
-media='<Mod4>backslash'
-next='<Mod4>bracketright'
+media='disabled'
+next='disabled'
 pause='disabled'
-play='<Mod4>p'
-previous='<Mod4>bracketleft'
+play='disabled'
+previous='disabled'
 screensaver='disabled'
 search='disabled'
-volume-down='<Mod4>minus'
-volume-mute='<Mod4>0'
-volume-up='<Mod4>equal'
+volume-down='AudioLowerVolume'
+volume-mute='AudioMute'
+volume-up='AudioRaiseVolume'
 
 [settings-daemon/plugins/xrandr]
 show-notification-icon=false
@@ -1264,6 +1278,7 @@ width=1920
 [system-monitor]
 current-tab=1
 maximized=true
+show-all-fs=true
 show-tree=false
 view-as=0
 
@@ -1280,7 +1295,7 @@ col-12-width=117
 col-15-visible=true
 col-16-width=156
 col-17-width=204
-col-19-width=351
+col-19-width=70
 col-2-width=180
 col-3-visible=true
 col-4-visible=true
@@ -1288,7 +1303,7 @@ col-4-width=285
 col-8-width=286
 col-9-width=165
 columns-order=[0, 12, 8, 9, 1, 2, 3, 4, 5, 6, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
-sort-col=4
+sort-col=8
 sort-order=0
 
 [terminal/global]
