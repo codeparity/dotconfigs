@@ -12,3 +12,6 @@ vim.opt.nu = true
 vim.opt.relativenumber = true
 vim.o.statuscolumn = "%s %l %r "
 vim.o.exrc = true
+
+-- Disable vim's default 4-space markdown indent style
+vim.g.markdown_recommended_style = 0
