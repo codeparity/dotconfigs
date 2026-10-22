@@ -91,6 +91,7 @@ print_dependencies() {
     check_dependency "nvim"
     check_dependency "tmux"
     check_dependency "keyd"
+    check_dependency "emacs"
     echo ""
 }
 
@@ -203,6 +204,15 @@ main() {
         fi
     else
         log_error "Could not find keyd/default.conf in $SCRIPT_DIR"
+    fi
+    echo ""
+
+    # 6. Setup Emacs / Doom Custom Configuration
+    echo -e "${BOLD}6. Setting up Emacs / Doom Custom Configuration...${NC}"
+    if [ -d "$SCRIPT_DIR/emacs" ]; then
+        link_config "$SCRIPT_DIR/emacs" "$HOME/.config/doom/custom"
+    else
+        log_error "Could not find emacs folder in $SCRIPT_DIR"
     fi
     echo ""
 

@@ -168,13 +168,5 @@ source "$OSH"/oh-my-bash.sh
 alias vi=nvim
 export LC_ALL=en_US.UTF-8
 
-# opencode
-export PATH=/home/paw/.opencode/bin:$PATH
-
-# >>> opencode-local-setup >>>
-export OPENCODE_LOCAL_SETUP_DIR="/home/paw/.config/opencode/local-setup"
-[ -f "/home/paw/.config/opencode/local-setup/opencode-wrapper.sh" ] && . "/home/paw/.config/opencode/local-setup/opencode-wrapper.sh"
-# <<< opencode-local-setup <<<
-
-# kimi-code
-export PATH="/home/paw/.kimi-code/bin:$PATH"
+# emacs config and 'doom'
+export PATH="$HOME/.config/emacs/bin:$PATH"

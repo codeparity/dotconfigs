@@ -7,6 +7,7 @@ This repository contains my personal system configuration files (dotfiles), orga
 ```text
 dotconfigs/
 ├── artwork/           # Color palettes, graphics, and logos
+├── emacs/             # Doom Emacs custom layer (Org-mode, Brain, Mind-map, Docs)
 ├── keyd/
 │   └── default.conf   # Keyd keyboard remapper configuration (capslock/escape swaps, hjkl navigation)
 ├── kitty/
@@ -42,6 +43,7 @@ To set up all the configurations on a new machine:
 3. **Symbolic Linking**: Creates symlinks from your home directory pointing to the configs in this repo directory.
 4. **Tmux Plugin Manager (TPM)**: Clones and installs TPM at `~/.tmux/plugins/tpm` if it is not already installed.
 5. **Keyd Setup**: Optionally copies the Keyd keyboard remapper config to `/etc/keyd/default.conf` using `sudo` and restarts the daemon.
+6. **Doom Emacs Custom Layer**: Links `emacs/` to `~/.config/doom/custom` for Org-mode documentation, mind maps, and concept visualization.
 
 ---
 
