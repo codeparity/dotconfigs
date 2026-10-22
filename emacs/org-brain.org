@@ -1,17 +1,14 @@
-;;; config.el -*- lexical-binding: t; -*-
-;; Custom configuration for Org mode, Mind Mapping, and Brain documentation
+#+TITLE: Org-Brain Configuration
+#+DESCRIPTION: Concept mapping, relationship visualization, and polymode integration.
+#+STARTUP: overview
 
-;; Set base documentation directory to ~/projects/docs
-(setq org-directory (expand-file-name "~/projects/docs/"))
+* Org Brain Setup
 
-;; Ensure the base directories exist
-(unless (file-directory-p org-directory)
-  (make-directory org-directory t))
-
+#+begin_src emacs-lisp
 ;;; --- Org Brain Configuration ---
 (use-package! org-brain
   :init
-  ;; Brain files live in ~/projects/docs/brain
+  ;; Brain files live in ~/projects/thoths/docs/brain
   (setq org-brain-path (expand-file-name "brain" org-directory))
   (unless (file-directory-p org-brain-path)
     (make-directory org-brain-path t))
@@ -46,23 +43,4 @@
 ;; Polymode helper
 (use-package! polymode
   :after org-brain)
-
-;;; --- Org Mind Map Configuration ---
-(use-package! org-mind-map
-  :after (org ox)
-  :init
-  (require 'ox)
-  (setq org-mind-map-engine "dot") ; Uses system /usr/bin/dot
-  :config
-  (map! :map org-mode-map
-        :localleader
-        (:prefix ("m" . "mind-map")
-         :desc "Export whole tree to mind map"    "m" #'org-mind-map-write
-         :desc "Export current node to mind map" "c" #'org-mind-map-write-current-tree)))
-
-;;; --- Org Clip Link Configuration ---
-(use-package! org-cliplink
-  :config
-  (map! :leader
-        :prefix "n"
-        :desc "Org Clip Link" "l" #'org-cliplink))
+#+end_src

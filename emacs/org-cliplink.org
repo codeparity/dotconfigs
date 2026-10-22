@@ -1,0 +1,14 @@
+#+TITLE: Org Clip Link Configuration
+#+DESCRIPTION: Auto-fetch web page titles and insert org-mode links from clipboard URLs.
+#+STARTUP: overview
+
+* Org Clip Link Setup
+
+#+begin_src emacs-lisp
+;;; --- Org Clip Link Configuration ---
+(use-package! org-cliplink
+  :config
+  (map! :leader
+        :prefix "n"
+        :desc "Org Clip Link" "l" #'org-cliplink))
+#+end_src

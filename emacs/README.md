@@ -1,67 +1,80 @@
-# 🧠 Doom Emacs — Custom Org & Knowledge Management Layer
+# 🧠 Doom Emacs — Modular Custom Layer
 
-> Modular personal configuration layer for **Doom Emacs** providing Org Mode documentation, interactive concept mapping, mind mapping, and web resource linking.
+> Modular personal configuration layer for **Doom Emacs** providing Org Mode documentation, interactive concept mapping, mind mapping, web resource linking, and AI agent integration (Codex & AGY).
 >
 > Source: `~/projects/dotconfigs/emacs/`  
 > Target Symlink: `~/.config/doom/custom`  
-> Base Docs: `~/projects/docs/`
+> Base Docs: `~/projects/thoths/docs/`
 
 ---
 
-## 📁 Architecture & Symlinks
+## 📁 Architecture & Modular Org Configuration
 
-To keep personal customizations independent from Doom's core configuration files, this folder is softlinked into Doom's user directory:
+All personal customizations are organized in modular `*.org` files. A lightweight loader automatically evaluates all `*.org` files in this directory on Emacs startup:
 
 ```text
 projects/dotconfigs/emacs/              ~/.config/doom/
-├── README.md               <──────┐    ├── config.el   (loads custom/config.el)
-├── packages.el                    └────┼── custom/     (symlink)
-└── config.el                           └── packages.el (loads custom/packages.el)
-```
-
-### Automatic Setup
-Run the main installer script from `~/projects/dotconfigs/`:
-```bash
-./setup.sh
-```
-Step 6 will automatically verify and link `$SCRIPT_DIR/emacs` $\rightarrow$ `~/.config/doom/custom`.
-
-### Manual Linking (if needed)
-```bash
-ln -s ~/projects/dotconfigs/emacs ~/.config/doom/custom
-doom sync
+├── README.md                           ├── config.el (loads custom/config.el)
+├── config.el (auto-loads *.org)  ───┐  └── packages.el (loads custom/packages.el)
+├── packages.el                      │       ▲
+├── packages.org                     │       │
+├── base.org                         └── custom/ (symlink)
+├── navigation.org
+├── ai_agent.org
+├── org-brain.org
+├── org-mind-map.org
+└── org-cliplink.org
 ```
 
 ---
 
-## 🗂️ Documentation Base
+## 🧭 Navigation (`navigation.org`)
 
-All Org-mode documents and knowledge graphs are organized under:
-* **Documentation Root**: `~/projects/docs/` (`org-directory`)
-* **Org-Brain Path**: `~/projects/docs/brain/` (`org-brain-path`)
+Ergonomic split window and buffer navigation:
 
----
+### Windows
+| Keybinding | Scope | Action | Description |
+|:---|:---|:---|:---|
+| `M-h` / `M-j` / `M-k` / `M-l` | Normal & Insert | Directional Window | Move focus directly Left / Down / Up / Right |
+| `M-w` | Normal & Insert | Cycle Window | Move focus clockwise to next window |
 
-## 🔌 Included Plugins
-
-| Plugin | Source | Purpose |
-|:---|:---|:---|
-| **[org-brain](https://github.com/Kungsgeten/org-brain)** | GitHub (`:build (:not compile)`) | Concept mapping, parent/child/friend relationships, and visual node exploration |
-| **[polymode](https://github.com/polymode/polymode)** | MELPA | Allows editing Org entries directly inside the `org-brain` visualizer window |
-| **[org-mind-map](https://github.com/the-ted/org-mind-map)** | GitHub (`the-ted/org-mind-map`) | Exports Org outlines to visual mind map diagrams using Graphviz (`/usr/bin/dot`) |
-| **[org-cliplink](https://github.com/rexim/org-cliplink)** | MELPA | Pulls titles from URLs in clipboard and inserts formatted `[[url][title]]` links |
-
-> [!NOTE]
-> `org-brain` is intentionally set to `:build (:not compile)` in `packages.el`. This prevents byte-compilation from evaluating polymode macros as void variables before polymode is loaded.
+### Buffers
+| Keybinding | Scope | Action | Description |
+|:---|:---|:---|:---|
+| `<leader> TAB` | Global | Toggle Last Buffer | Instant switch back and forth between recent two buffers |
+| `H` / `L` | Normal | Prev / Next Buffer | Step backward (`H`) or forward (`L`) through buffer history |
+| `M-p` / `M-n` | Normal & Insert | Prev / Next Buffer | Step backward (`M-p`) or forward (`M-n`) through buffers without leaving insert mode |
 
 ---
 
-## ⌨️ Keybindings Cheat-Sheet
+## 🤖 AI Agent Integration (`ai_agent.org`)
 
-`<leader>` = `Space` | `<localleader>` = `Space m` (inside `org-mode` buffers)
+Quick, project-rooted terminal launcher for **AGY** (Antigravity CLI) and **Codex** with session memory:
 
-### 1. Org-Brain (Concept & Knowledge Mapping)
+| Keybinding | Scope | Action | Description |
+|:---|:---|:---|:---|
+| `<leader> a` | Global | Launch AI Agent | Opens terminal with last-used agent (defaults to `agy`) |
+| `<leader> n a` | Global / Notes | Launch AI Agent | Same as `<leader> a` |
+| `<leader> n A` | Global / Notes | Switch Agent | Prompt to select between `agy` and `codex`, sets as last-used, and launches |
+| `<leader> n c` | Global / Notes | Codex CLI | Launches Codex directly (rooted at project) |
+| `<leader> n g` | Global / Notes | AGY CLI | Launches AGY directly (rooted at project) |
 
+* **Memory**: The active agent is remembered across calls (`my/last-ai-agent`). Use `C-u <leader> a` or `<leader> n A` to switch agents.
+* **Auto-Revert**: Automatically refreshes clean file buffers when external agents modify them on disk.
+
+---
+
+## 🗂️ Documentation Base (`base.org`)
+
+* **Documentation Root**: `~/projects/thoths/docs/` (`org-directory`)
+* **Org-Brain Path**: `~/projects/thoths/docs/brain/` (`org-brain-path`)
+* **Portfolio agenda**: `~/projects/thoths/docs/projects/PROJECTS.org`
+
+---
+
+## 🧠 Knowledge & Mind Mapping Modules
+
+### 1. Org-Brain (`org-brain.org`)
 | Key | Scope | Action | Command |
 |:---|:---|:---|:---|
 | `<leader>nbv` | Global | Open / Visualize Brain | `org-brain-visualize` |
@@ -72,44 +85,13 @@ All Org-mode documents and knowledge graphs are organized under:
 | `<localleader>bf` | Org Buffer | Add Friend / Related Node | `org-brain-add-friend` |
 | `<localleader>bg` | Org Buffer | Jump to Node | `org-brain-goto` |
 
-#### Navigation inside Brain Visualize Buffer
-* `j` / `k` / `h` / `l` or `Tab`: Navigate between nodes
-* `Enter`: Open node at point
-* `c` / `p` / `f`: Add child / parent / friend directly from visualizer
-* `q`: Quit visualizer
-
----
-
-### 2. Org-Mind-Map (Graphviz Diagram Exports)
-
+### 2. Org-Mind-Map (`org-mind-map.org`)
 | Key | Scope | Action | Command |
 |:---|:---|:---|:---|
-| `<localleader>mmm` | Org Buffer | Export entire tree to Graphviz Mind Map | `org-mind-map-write` |
+| `<localleader>mmm` | Org Buffer | Export whole tree to Graphviz Mind Map | `org-mind-map-write` |
 | `<localleader>mmc` | Org Buffer | Export only current subtree to Mind Map | `org-mind-map-write-current-tree` |
 
-* Output diagrams will be generated using `/usr/bin/dot` in the current document's directory.
-
----
-
-### 3. Org-Cliplink (Web Linking)
-
+### 3. Org-Cliplink (`org-cliplink.org`)
 | Key | Scope | Action | Command |
 |:---|:---|:---|:---|
-| `<leader>nl` | Global / Org | Insert web link from clipboard with fetched page title | `org-cliplink` |
-
----
-
-## 🛠️ Maintenance & CLI Commands
-
-After making changes to [`packages.el`](packages.el):
-```bash
-doom sync
-```
-
-After modifying [`config.el`](config.el):
-* Changes take effect immediately upon restarting Emacs or running `M-x doom/reload`.
-
-Run Doom health checks:
-```bash
-doom doctor
-```
+| `<leader>nl` | Global / Org | Insert web link with fetched page title | `org-cliplink` |

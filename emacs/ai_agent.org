@@ -1,0 +1,123 @@
+#+TITLE: AI Agent Integration (Codex & AGY)
+#+DESCRIPTION: Interactive launcher for Codex and Antigravity (AGY) with persistent agent memory.
+#+STARTUP: overview
+
+* Overview & Environment
+
+Ensure =~/.local/bin= is in Emacs's ~exec-path~ so GUI Emacs can find CLI binaries (~agy~ and ~codex~), and enable auto-revert mode to reload buffers automatically when an AI agent edits them on disk.
+
+#+begin_src emacs-lisp
+;; GUI-launched Emacs may not inherit the shell's local bin directory.
+(let ((local-bin (expand-file-name "~/.local/bin")))
+  (when (file-directory-p local-bin)
+    (add-to-list 'exec-path local-bin)))
+
+;; Refresh clean file buffers when an external agent modifies them.
+(global-auto-revert-mode 1)
+(setq auto-revert-verbose nil)
+#+end_src
+
+* Agent Selection & Memory
+
+Remember the last used agent across invocations within the session.
+
+#+begin_src emacs-lisp
+(require 'project)
+(require 'term)
+
+(defvar my/last-ai-agent "agy"
+  "The last used AI agent ('agy' or 'codex').")
+
+(defvar my/ai-agent-specs
+  '(("agy"   . (:program "agy"   :args nil))
+    ("codex" . (:program "codex" :args ("--sandbox" "workspace-write" "--ask-for-approval" "on-request"))))
+  "Specifications and arguments for supported AI agents.")
+#+end_src
+
+* Core Launcher Function
+
+Launch or pop to an existing project-local terminal for the selected agent.
+
+#+begin_src emacs-lisp
+(defun my/launch-ai-agent (agent-name)
+  "Launch or switch to terminal for AGENT-NAME in current project."
+  (let* ((spec (cdr (assoc agent-name my/ai-agent-specs)))
+         (program-name (plist-get spec :program))
+         (program-path (executable-find program-name))
+         (extra-args (plist-get spec :args))
+         (project (project-current nil))
+         (default-directory (if project (project-root project) default-directory))
+         (project-name (file-name-nondirectory
+                        (directory-file-name (expand-file-name default-directory))))
+         (term-name (format "%s-%s" agent-name project-name))
+         (buffer (get-buffer (format "*%s*" term-name))))
+    (unless program-path
+      (user-error "%s CLI not found; ensure it is installed in exec-path" program-name))
+    (setq my/last-ai-agent agent-name)
+    (if (and buffer
+             (get-buffer-process buffer)
+             (process-live-p (get-buffer-process buffer)))
+        (pop-to-buffer buffer)
+      (when buffer
+        (kill-buffer buffer))
+      (let ((term-buffer
+             (apply #'make-term term-name program-path nil extra-args)))
+        (with-current-buffer term-buffer
+          (term-mode)
+          (term-char-mode))
+        (pop-to-buffer term-buffer)))))
+#+end_src
+
+* Interactive Commands
+
+- ~my/ai-agent~: Run last-used agent (prompt if ~C-u~ prefix given)
+- ~my/ai-agent-select~: Choose between Codex and AGY
+- ~my/codex~: Launch Codex directly
+- ~my/agy~: Launch AGY directly
+
+#+begin_src emacs-lisp
+(defun my/ai-agent-select ()
+  "Prompt to select and run an AI agent (agy or codex), saving choice as last used."
+  (interactive)
+  (let ((chosen (completing-read
+                 (format "Select AI Agent (last used: %s): " my/last-ai-agent)
+                 '("agy" "codex")
+                 nil t nil nil my/last-ai-agent)))
+    (my/launch-ai-agent chosen)))
+
+(defun my/ai-agent (&optional choose)
+  "Launch the last used AI agent. With prefix argument CHOOSE, prompt to select."
+  (interactive "P")
+  (if (or choose (not my/last-ai-agent))
+      (my/ai-agent-select)
+    (message "Launching last used agent: %s (use C-u to switch)" my/last-ai-agent)
+    (my/launch-ai-agent my/last-ai-agent)))
+
+(defun my/codex ()
+  "Launch Codex directly in the current project."
+  (interactive)
+  (my/launch-ai-agent "codex"))
+
+(defun my/agy ()
+  "Launch Antigravity (AGY) directly in the current project."
+  (interactive)
+  (my/launch-ai-agent "agy"))
+#+end_src
+
+* Keybindings
+
+Intuitive leader shortcuts:
+- ~SPC a~ / ~SPC n a~: Launch last used AI agent (remembers choice)
+- ~SPC n A~: Prompt to switch AI agent
+- ~SPC n c~: Launch Codex directly
+- ~SPC n g~: Launch AGY directly
+
+#+begin_src emacs-lisp
+(map! :leader
+      :desc "AI Agent (last used)" "a" #'my/ai-agent
+      (:prefix ("n" . "notes")
+       :desc "AI Agent (last used)" "a" #'my/ai-agent
+       :desc "Switch AI Agent"      "A" #'my/ai-agent-select
+       :desc "Codex CLI"            "c" #'my/codex
+       :desc "AGY CLI"              "g" #'my/agy))
+#+end_src

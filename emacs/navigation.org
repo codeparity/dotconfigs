@@ -1,0 +1,44 @@
+#+TITLE: Window and Buffer Navigation
+#+DESCRIPTION: Ergonomic keybindings for rapid split window and buffer navigation.
+#+STARTUP: overview
+
+* Window Navigation
+
+- Direct directional movement using =Alt + hjkl= (=M-h=, =M-j=, =M-k=, =M-l=)
+- Cycle clockwise to next window using =Alt + w= (=M-w=)
+
+#+begin_src emacs-lisp
+;; Directional window switching
+(map! :n "M-h" #'evil-window-left
+      :n "M-j" #'evil-window-down
+      :n "M-k" #'evil-window-up
+      :n "M-l" #'evil-window-right
+      :i "M-h" #'evil-window-left
+      :i "M-j" #'evil-window-down
+      :i "M-k" #'evil-window-up
+      :i "M-l" #'evil-window-right
+
+      ;; Cycle window
+      :n "M-w" #'evil-window-next
+      :i "M-w" #'evil-window-next)
+#+end_src
+
+* Buffer Navigation
+
+- Toggle between current and last active buffer using =SPC TAB=
+- Step previous / next buffer in normal mode using =H= and =L=
+- Step previous / next buffer in any mode using =M-p= and =M-n=
+
+#+begin_src emacs-lisp
+;; Toggle between last two buffers
+(map! :leader
+      :desc "Toggle last buffer" "TAB" #'evil-switch-to-windows-last-buffer)
+
+;; Previous and Next buffer navigation
+(map! :n "H" #'previous-buffer
+      :n "L" #'next-buffer
+
+      ;; Modifier-based buffer navigation (works in normal and insert mode)
+      :ni "M-p" #'previous-buffer
+      :ni "M-n" #'next-buffer)
+#+end_src

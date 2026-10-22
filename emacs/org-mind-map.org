@@ -1,0 +1,20 @@
+#+TITLE: Org Mind Map Configuration
+#+DESCRIPTION: Graphviz diagram generator for Org outlines.
+#+STARTUP: overview
+
+* Org Mind Map Setup
+
+#+begin_src emacs-lisp
+;;; --- Org Mind Map Configuration ---
+(use-package! org-mind-map
+  :after (org ox)
+  :init
+  (require 'ox)
+  (setq org-mind-map-engine "dot") ; Uses system /usr/bin/dot
+  :config
+  (map! :map org-mode-map
+        :localleader
+        (:prefix ("m" . "mind-map")
+         :desc "Export whole tree to mind map"    "m" #'org-mind-map-write
+         :desc "Export current node to mind map" "c" #'org-mind-map-write-current-tree)))
+#+end_src
