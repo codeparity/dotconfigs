@@ -72,21 +72,26 @@ Doom's package manager reads ~packages.el~ during ~doom sync~.
 (setq auto-revert-verbose nil)
 #+end_src
 
-* Org Directory & Agenda Setup
+* Org Portfolio Landing Page & Agenda
 
-Keep Org documents directly inside the ~thoths~ repository.
-Ensure the base directories exist and add the project pipeline to the Org agenda.
+Use the portfolio repository itself as the Org directory and open its canonical Org map on startup. This keeps the portfolio tables and linked project directories in the actual workspace rather than creating an empty =docs/= tree.
 
 #+begin_src emacs-lisp
-;; Base Org documentation directory
-(setq org-directory (expand-file-name "~/projects/thoths/docs/"))
+(defvar my/portfolio-root (expand-file-name "~/projects/thoths/")
+  "Root of the CodeParity product portfolio.")
+(defvar my/portfolio-file (expand-file-name "PROJECTS.org" my/portfolio-root)
+  "Canonical Org source for the CodeParity portfolio.")
 
-(unless (file-directory-p org-directory)
-  (make-directory org-directory t))
+(setq org-directory my/portfolio-root
+      org-agenda-files (list my/portfolio-file)
+      initial-buffer-choice
+      (lambda ()
+        (if (file-readable-p my/portfolio-file)
+            (find-file-noselect my/portfolio-file)
+          (get-buffer-create "*Welcome*"))))
 
-;; Project pipeline visible in Org agenda
-(setq org-agenda-files
-      (list (expand-file-name "projects/PROJECTS.org" org-directory)))
+;; Org links to project directories open in Dired; file links open their target.
+(setq org-link-file-path-type 'relative)
 #+end_src
 
 * Navigation & Core Keybindings

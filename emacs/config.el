@@ -36,17 +36,23 @@
 (setq auto-revert-verbose nil)
 ;; Core Environment & Auto-Tangle:1 ends here
 
-;; [[file:config.org::*Org Directory & Agenda Setup][Org Directory & Agenda Setup:1]]
-;; Base Org documentation directory
-(setq org-directory (expand-file-name "~/projects/thoths/docs/"))
+;; [[file:config.org::*Org Portfolio Landing Page & Agenda][Org Portfolio Landing Page & Agenda:1]]
+(defvar my/portfolio-root (expand-file-name "~/projects/thoths/")
+  "Root of the CodeParity product portfolio.")
+(defvar my/portfolio-file (expand-file-name "PROJECTS.org" my/portfolio-root)
+  "Canonical Org source for the CodeParity portfolio.")
 
-(unless (file-directory-p org-directory)
-  (make-directory org-directory t))
+(setq org-directory my/portfolio-root
+      org-agenda-files (list my/portfolio-file)
+      initial-buffer-choice
+      (lambda ()
+        (if (file-readable-p my/portfolio-file)
+            (find-file-noselect my/portfolio-file)
+          (get-buffer-create "*Welcome*"))))
 
-;; Project pipeline visible in Org agenda
-(setq org-agenda-files
-      (list (expand-file-name "projects/PROJECTS.org" org-directory)))
-;; Org Directory & Agenda Setup:1 ends here
+;; Org links to project directories open in Dired; file links open their target.
+(setq org-link-file-path-type 'relative)
+;; Org Portfolio Landing Page & Agenda:1 ends here
 
 ;; [[file:config.org::*Window Navigation][Window Navigation:1]]
 ;; Directional window switching test
