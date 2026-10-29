@@ -170,3 +170,5 @@ export LC_ALL=en_US.UTF-8
 
 # emacs config and 'doom'
 export PATH="$HOME/.config/emacs/bin:$PATH"
+. "/home/paw/.deno/env"
+source /home/paw/.local/share/bash-completion/completions/deno.bash

@@ -42,8 +42,28 @@
 (defvar my/portfolio-file (expand-file-name "PROJECTS.org" my/portfolio-root)
   "Canonical Org source for the CodeParity portfolio.")
 
+(defvar my/portfolio-plan-files
+  (mapcar (lambda (path) (expand-file-name path my/portfolio-root))
+          '("../logos/PROJECT.org"
+            "../web/codeparity/PROJECT.org"
+            "../apps-codeparity/logos_app/PROJECT.org"
+            "../apps-codeparity/reader_app/PROJECT.org"
+            "../web/codeparity-consulting/PROJECT.org"
+            "../blog_codeparity/PROJECT.org"
+            "../codeparity-stories/PROJECT.org"
+            "../apps-codeparity/creation_engines/storybook/PROJECT.org"
+            "../apps-codeparity/creation_engines/comic_studio/PROJECT.org"
+            "../apps-codeparity/creation_engines/comic_creator/PROJECT.org"
+            "../apps-codeparity/creation_engines/story_studio/PROJECT.org"
+            "../codeparity/engineering/story_player/PROJECT.org"
+            "../apps-codeparity/creation_engines/game/PROJECT.org"
+            "../wip/manuscipt-codeparity/PROJECT.org"
+            "../wip/codeparity-conventions-ideas/PROJECT.org"))
+  "Org task plans maintained alongside their projects.")
+
 (setq org-directory my/portfolio-root
-      org-agenda-files (list my/portfolio-file)
+      org-agenda-files (cons my/portfolio-file
+                             (seq-filter #'file-readable-p my/portfolio-plan-files))
       initial-buffer-choice
       (lambda ()
         (if (file-readable-p my/portfolio-file)
