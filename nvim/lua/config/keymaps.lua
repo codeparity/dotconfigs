@@ -53,6 +53,7 @@ vim.keymap.set("i", "jk", "<ESC>", opts)
 
 vim.keymap.set("n", "<ESC>", "<ESC>:noh<CR>", opts)
 vim.keymap.set("n", "fs", "<cmd>w<cr>", opts)
+vim.keymap.set("n", "<leader>;", "<cmd>FzfLua commands<cr>", { desc = "Command Palette (FzfLua)" })
 
 pcall(vim.keymap.del, "n", "<leader>l")
 

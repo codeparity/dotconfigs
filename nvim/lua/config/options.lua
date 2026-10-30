@@ -15,3 +15,7 @@ vim.o.exrc = true
 
 -- Disable vim's default 4-space markdown indent style
 vim.g.markdown_recommended_style = 0
+
+-- Fuzzy matching and popup menu for command-line completion
+vim.opt.wildoptions = "pum,tagfile,fuzzy"
+
